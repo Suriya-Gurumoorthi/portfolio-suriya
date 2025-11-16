@@ -1,6 +1,6 @@
 export const personalData = {
   name: "Suriya",
-  profile: '/photo.jpeg',
+  profile: '/Photo.jpeg',
   designation: "AI Solutions Specialist",
   description: "I believe intelligence should do more than think. That’s why I build AI systems that act and refine themselves over time. Every solution I create brings us one step closer to innovation.",
   email: 'suriyagurumoorthi02@gmail.com',
