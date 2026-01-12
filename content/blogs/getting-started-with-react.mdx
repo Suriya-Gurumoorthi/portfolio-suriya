@@ -1,0 +1,445 @@
+---
+title: "Getting Started with React: A Complete Guide for Beginners"
+slug: "getting-started-with-react"
+date: "2026-01-12"
+author: "Suriya G"
+description: "Master React from scratch! Learn components, hooks, state management, and build your first interactive application. Perfect for beginners."
+tags: ["react", "javascript", "frontend", "web-development", "tutorial"]
+readingTime: 15
+coverImage: "/image/portfolio.gif"
+---
+
+# Getting Started with React: A Complete Guide for Beginners 🚀
+
+Welcome to the exciting world of React! If you're reading this, you're about to embark on a journey that will transform how you think about building user interfaces. React has revolutionized web development, and by the end of this guide, you'll understand why millions of developers love it.
+
+## What is React? 🤔
+
+React is a **JavaScript library** for building user interfaces, particularly web applications. Created by Facebook (now Meta) in 2013, React has become one of the most popular frontend frameworks in the world.
+
+### Why React?
+
+- **Component-Based**: Build encapsulated components that manage their own state
+- **Declarative**: Describe what the UI should look like, React handles the rest
+- **Learn Once, Write Anywhere**: Use React for web, mobile (React Native), and even desktop apps
+- **Huge Ecosystem**: Massive community and library support
+- **Performance**: Virtual DOM makes updates fast and efficient
+
+## Setting Up Your First React Project
+
+Let's get your hands dirty! The easiest way to start is with **Create React App** or **Vite**.
+
+### Using Vite (Recommended - Faster!)
+
+```bash
+npm create vite@latest my-react-app -- --template react
+cd my-react-app
+npm install
+npm run dev
+```
+
+### Using Create React App
+
+```bash
+npx create-react-app my-react-app
+cd my-react-app
+npm start
+```
+
+Both will create a project with all the necessary files and start a development server at `http://localhost:3000` (or similar).
+
+## Understanding Components
+
+Components are the building blocks of React. Think of them as reusable pieces of UI.
+
+### Your First Component
+
+Let's create a simple component:
+
+```jsx
+function Welcome() {
+  return <h1>Hello, React World! 🌍</h1>;
+}
+
+export default Welcome;
+```
+
+This is a **functional component** - the modern way to write React code. It's just a JavaScript function that returns JSX (JavaScript XML).
+
+### JSX: The Secret Sauce
+
+JSX looks like HTML, but it's actually JavaScript. Here's what makes it powerful:
+
+```jsx
+function Greeting({ name }) {
+  const message = `Hello, ${name}!`;
+  const isLoggedIn = true;
+  
+  return (
+    <div>
+      <h1>{message}</h1>
+      {isLoggedIn && <p>Welcome back!</p>}
+      {!isLoggedIn && <p>Please log in.</p>}
+    </div>
+  );
+}
+```
+
+**Key Points:**
+- Use `{}` to embed JavaScript expressions
+- JSX must return a single parent element (or use fragments: `<>...</>`)
+- Use `className` instead of `class` (since `class` is a reserved word in JS)
+
+## State Management with useState
+
+State is data that can change over time. React's `useState` hook lets you add state to functional components.
+
+### Basic Counter Example
+
+Try this interactive counter below! Click the buttons to see React state in action:
+
+<CounterDemo />
+
+Here's the code that powers it:
+
+```jsx
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me!
+      </button>
+    </div>
+  );
+}
+```
+
+**Breaking it down:**
+- `useState(0)` initializes state with value `0`
+- Returns an array: `[currentValue, setterFunction]`
+- `setCount` updates the state and triggers a re-render
+
+### Multiple State Variables
+
+You can use `useState` multiple times:
+
+```jsx
+function Form() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState(0);
+  
+  return (
+    <form>
+      <input 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+        placeholder="Name"
+      />
+      <input 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+        placeholder="Email"
+      />
+      <input 
+        type="number"
+        value={age} 
+        onChange={(e) => setAge(Number(e.target.value))} 
+        placeholder="Age"
+      />
+    </form>
+  );
+}
+```
+
+## Handling Events
+
+React events are similar to DOM events, but with some differences:
+
+```jsx
+function Button() {
+  const handleClick = (e) => {
+    e.preventDefault();
+    alert('Button clicked!');
+  };
+  
+  return (
+    <button onClick={handleClick}>
+      Click Me
+    </button>
+  );
+}
+```
+
+**Common Events:**
+- `onClick` - Mouse clicks
+- `onChange` - Input changes
+- `onSubmit` - Form submission
+- `onMouseEnter` - Mouse hover
+- `onKeyDown` - Keyboard presses
+
+## Conditional Rendering
+
+Show different content based on conditions:
+
+```jsx
+function UserGreeting({ isLoggedIn }) {
+  return (
+    <div>
+      {isLoggedIn ? (
+        <h1>Welcome back!</h1>
+      ) : (
+        <h1>Please sign in.</h1>
+      )}
+    </div>
+  );
+}
+```
+
+**Other patterns:**
+- `{condition && <Component />}` - Render if true
+- `{condition ? <A /> : <B />}` - Ternary operator
+- `{condition ? <A /> : null}` - Render or nothing
+
+## Lists and Keys
+
+Rendering lists is common in React:
+
+```jsx
+function TodoList() {
+  const todos = [
+    { id: 1, text: 'Learn React' },
+    { id: 2, text: 'Build a project' },
+    { id: 3, text: 'Share on GitHub' }
+  ];
+  
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+**Important:** Always provide a `key` prop when rendering lists. It helps React identify which items changed.
+
+## useEffect Hook
+
+`useEffect` lets you perform side effects (API calls, subscriptions, DOM manipulation) in functional components.
+
+### Basic Usage
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function DataFetcher() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    // This runs after every render
+    fetch('https://api.example.com/data')
+      .then(res => res.json())
+      .then(data => setData(data));
+  }, []); // Empty array = run only once
+  
+  return <div>{data ? JSON.stringify(data) : 'Loading...'}</div>;
+}
+```
+
+### Cleanup
+
+```jsx
+useEffect(() => {
+  const timer = setInterval(() => {
+    console.log('Tick');
+  }, 1000);
+  
+  // Cleanup function
+  return () => clearInterval(timer);
+}, []);
+```
+
+## Props: Passing Data Between Components
+
+Props (properties) let you pass data from parent to child components:
+
+```jsx
+// Parent Component
+function App() {
+  const user = { name: 'Suriya', role: 'Developer' };
+  
+  return <UserProfile user={user} />;
+}
+
+// Child Component
+function UserProfile({ user }) {
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>Role: {user.role}</p>
+    </div>
+  );
+}
+```
+
+## Building Your First App: Todo List
+
+Let's combine everything we've learned! Try this interactive todo list:
+
+<TodoDemo />
+
+Here's the complete code:
+
+```jsx
+import { useState } from 'react';
+
+function TodoApp() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+  
+  const addTodo = () => {
+    if (input.trim()) {
+      setTodos([...todos, {
+        id: Date.now(),
+        text: input,
+        completed: false
+      }]);
+      setInput('');
+    }
+  };
+  
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+  
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+  
+  return (
+    <div>
+      <h1>My Todo List</h1>
+      <div>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+          placeholder="Add a todo..."
+        />
+        <button onClick={addTodo}>Add</button>
+      </div>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            <span
+              style={{
+                textDecoration: todo.completed ? 'line-through' : 'none'
+              }}
+              onClick={() => toggleTodo(todo.id)}
+            >
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoApp;
+```
+
+## Best Practices
+
+### 1. Component Organization
+- Keep components small and focused
+- One component per file
+- Use descriptive names
+
+### 2. State Management
+- Lift state up when multiple components need it
+- Keep state as local as possible
+- Consider Context API for deeply nested props
+
+### 3. Performance
+- Use `React.memo()` for expensive components
+- Use `useMemo()` and `useCallback()` wisely
+- Avoid unnecessary re-renders
+
+### 4. Code Style
+- Use functional components and hooks
+- Follow consistent naming conventions
+- Add PropTypes or TypeScript for type safety
+
+## Common Pitfalls to Avoid
+
+1. **Mutating State Directly**
+   ```jsx
+   // ❌ Wrong
+   todos.push(newTodo);
+   
+   // ✅ Correct
+   setTodos([...todos, newTodo]);
+   ```
+
+2. **Missing Keys in Lists**
+   ```jsx
+   // ❌ Wrong
+   {items.map(item => <div>{item}</div>)}
+   
+   // ✅ Correct
+   {items.map(item => <div key={item.id}>{item}</div>)}
+   ```
+
+3. **Forgetting Dependencies in useEffect**
+   ```jsx
+   // ❌ Wrong - missing dependency
+   useEffect(() => {
+     fetchData(userId);
+   }, []);
+   
+   // ✅ Correct
+   useEffect(() => {
+     fetchData(userId);
+   }, [userId]);
+   ```
+
+## Next Steps
+
+Congratulations! You've learned the fundamentals of React. Here's what to explore next:
+
+1. **React Router** - For navigation and routing
+2. **Context API** - For global state management
+3. **Custom Hooks** - Reusable logic
+4. **Performance Optimization** - React.memo, useMemo, useCallback
+5. **Testing** - Jest and React Testing Library
+6. **State Management Libraries** - Redux, Zustand, or Jotai
+7. **Next.js** - React framework for production apps
+
+## Resources
+
+- [Official React Documentation](https://react.dev)
+- [React GitHub Repository](https://github.com/facebook/react)
+- [React Community](https://react.dev/community)
+- [React Patterns](https://reactpatterns.com)
+
+## Conclusion
+
+React is a powerful tool that makes building interactive UIs enjoyable and efficient. Start with small projects, experiment, make mistakes, and learn from them. The React community is incredibly supportive, so don't hesitate to ask questions!
+
+Remember: **Every expert was once a beginner**. Keep coding, keep learning, and most importantly, have fun! 🎉
+
+---
+
+**Happy Coding!** If you found this helpful, share it with others who are starting their React journey. And if you have questions, feel free to reach out!
+
